@@ -1,10 +1,8 @@
-#ifndef PMT_MAIN_H
-#define PMT_MAIN_H
+#include <string>
+#include <cstring>
+#include <cstdint>
+using namespace std;
 
-
-class main {
-
-};
-
-
-#endif //PMT_MAIN_H
+extern int ShiftOr(const string &txt, const string &pat);
+extern int BoyerMoore(const string &txt, const string &pat);
+extern int KnuthMorrisPratt(const string &txt, const string &pat);
