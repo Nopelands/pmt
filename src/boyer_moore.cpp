@@ -1,28 +1,33 @@
 #include "main.h"
 
-int16_t badchar[256];
+int16_t badchar[AB_SIZE];
 
-int BoyerMoore(const string &txt, const string &pat) {
+void buildBoyer(const string &pat) {
+    const unsigned patSize = pat.size();
 
-  const unsigned txtSize = txt.length();
-  const unsigned patSize = pat.length();
+    memset(badchar, -1, AB_SIZE * sizeof(badchar[0]));
 
-  memset(badchar, -1, 256 * sizeof(badchar[0]));
+    for (unsigned i = 0; i < patSize; ++i)
+        badchar[(uint8_t)pat[i]] = i;
+}
 
-  for (unsigned i = 0; i < patSize; ++i)
-    badchar[(uint8_t)pat[i]] = i;
+vector<Occurance> BoyerMoore(const string &txt, const string &pat) {
 
-  for (unsigned s = 0; s <= txtSize - patSize;) {
-    int j = patSize - 1;
+    vector<Occurance> occ;
+    const unsigned patSize = pat.size();
+    const unsigned txtSize = txt.size() - patSize;
 
-    while (j >= 0 && pat[j] == txt[s + j])
-      j--;
+    for (unsigned i = 0; i <= txtSize;) {
+        int j = patSize - 1;
 
-    if (j < 0)
-      return s;
+        while (j >= 0 && pat[j] == txt[i + j])
+            j--;
 
-    s += max(1, j - badchar[(uint8_t)txt[s + j]]);
-  }
+        if (j < 0)
+            occ.push_back({i, 0}), j = 0;
 
-  return -1;
+        i += max(1, j - badchar[(uint8_t)txt[i + j]]);
+    }
+
+    return occ;
 }

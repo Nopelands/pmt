@@ -1,24 +1,31 @@
 #include "main.h"
 
-uint64_t unsigned SO[256];
+uint64_t SO[AB_SIZE];
 
-int ShiftOr(const string &txt, const string &pat) {
+void buildShiftOr(const string &pat) {
+  
+    const unsigned patSize = pat.size();
+    
+    memset(SO, -1, AB_SIZE * sizeof(SO[0]));
 
-  const unsigned txtSize = txt.length();
-  const unsigned patSize = pat.length();
-  const uint64_t lim = -1ULL << (patSize - 1);
+    for (uint64_t i = 0, j = 1; i < patSize; ++i, j <<= 1)
+        SO[(uint8_t)pat[i]] &= ~j;
+}
 
-  memset(SO, -1, 256 * sizeof(SO[0]));
+vector<Occurance> ShiftOr(const string &txt, const string &pat) {
 
-  for (uint64_t i = 0, j = 1; i < patSize; ++i, j <<= 1)
-    SO[(uint8_t)pat[i]] &= ~j;
+    vector<Occurance> occ;
+    const unsigned txtSize = txt.size();
+    const unsigned patSize = pat.size();
+    const uint64_t lim = -1ULL << (patSize - 1);
 
-  for (uint64_t state = -1ULL, j = 0; j < txtSize; ++j) {
-    state = (state << 1) | SO[(uint8_t)txt[j]];
+    uint64_t state = -1ULL;
+    for (unsigned i = 0; i < txtSize; ++i) {
+        state = (state << 1) | SO[(uint8_t)txt[i]];
 
-    if (state < lim)
-      return j - patSize + 1;
-  }
+      if (state < lim)
+          occ.push_back({i, 0});
+    }
 
-  return -1;
+    return occ;
 }
