@@ -8,7 +8,7 @@
 #include <vector>
 using namespace std;
 
-#define AB_SIZE 128
+#define AB_SIZE 256
 
 struct Occurance {
     unsigned index, pat_index;

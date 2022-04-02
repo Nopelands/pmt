@@ -1,7 +1,5 @@
 SRCS = aho_corasick.cpp boyer_moore.cpp knuth_morris_pratt.cpp main.cpp sellers.cpp shift_or.cpp ukkonen.cpp wu_mamber.cpp
 
-OBJS = $(SRCS:.cpp=.o))
-
 KERNEL = $(shell uname -s)
 ifeq ($(KERNEL),Linux)
 	EXE = ../bin/pcc
@@ -14,4 +12,4 @@ build:
 	g++ -o $(EXE) $(SRCS) -O3 -Wall -Wcast-qual
 
 clean:
-	@rm -f .depend *~ core
+	@rm -f -r ../bin
