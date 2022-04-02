@@ -14,7 +14,7 @@ vector<unsigned> next_col(const string& pat, vector<unsigned> &col, char c) {
     return next;
 }
 
-void buildUK(const string& pat, const unsigned r) {
+void buildUkkonen(const string& pat, const unsigned r) {
     const unsigned patSize = pat.size();
 
     delta.assign(1, vector<unsigned>(AB_SIZE));
@@ -41,8 +41,8 @@ void buildUK(const string& pat, const unsigned r) {
                 next_index = allStates[next];
             else {
                 q.push_back({next, next_index = total_states++});
-                finalState.push_back(next[patSize] <= r);
                 allStates[next] = next_index;
+                finalState.push_back(next[patSize] <= r);
                 delta.push_back(vector<unsigned>(AB_SIZE));
             }
 

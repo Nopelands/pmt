@@ -1,18 +1,22 @@
 #include "main.h"
 
-int16_t dfa[1024][AB_SIZE];
+vector<int16_t> nxt;
 
 void buildKMP(const string &pat) {
     const unsigned patSize = pat.size();
+    nxt.assign(patSize + 1, -1);
 
-    dfa[0][(uint8_t)pat[0]] = 1;
+    for (unsigned i = 1; i <= patSize; ++i)
+        for (unsigned j = 0; j < i; ++j) {
+            bool check = true;
 
-    for (unsigned i = 0, j = 1; j < patSize; j++) {
-        memcpy(dfa[j], dfa[i], AB_SIZE * sizeof(dfa[0][0]));
+            for (unsigned k = 0; k < j && check; ++k)
+                if (pat[k] != pat[i - j + k])
+                    check = false;
 
-        dfa[j][(uint8_t)pat[j]] = j + 1;
-        i = dfa[i][(uint8_t)pat[j]];
-    }
+            if (check)
+                nxt[i] = j;
+        }
 }
 
 vector<Occurance> KnuthMorrisPratt(const string &txt, const string &pat) {
@@ -21,13 +25,17 @@ vector<Occurance> KnuthMorrisPratt(const string &txt, const string &pat) {
     const unsigned txtSize = txt.size();
     const unsigned patSize = pat.size();
 
-    for (unsigned i = 0, j = 0; i < txtSize; i++) {
-        j = dfa[j][(uint8_t)txt[i]];
+    for (unsigned i = 0, j = 0; i <= txtSize - patSize; ) {
 
-        if (j >= patSize)
+        while (j < patSize && pat[j] == txt[i + j])
+            j++;
+
+        if (j == patSize)
             occ.push_back({i, 0});
-            // return i - j;
-    }
 
+        i += j - nxt[j];
+        j = max((int16_t)0, nxt[j]);
+    }
+  
     return occ;
 }

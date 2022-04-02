@@ -71,11 +71,13 @@ int main(const int argc, const char *argv[]) {
     else
         for (string pat : patText) {
 
-            if (funct == "shift-or")
+            if (funct == "knuth-morris-pratt" || funct == "kmp")
+                buildKMP(pat);
+            else if (funct == "shift-or")
                 buildShiftOr(pat);
             else if (funct == "ukkonen")
-                buildUK(pat, edit);
-            else if (funct == "wu-wamber")
+                buildUkkonen(pat, edit);
+            else if (funct == "wu-mamber")
                 buildWuMamber(pat);
 
             for (auto f : TXTfiles) {

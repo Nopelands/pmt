@@ -14,7 +14,14 @@ struct Occurance {
     unsigned index, pat_index;
 };
 
+#if defined(__GNUC__)
+__extension__ typedef unsigned __int128 BitInt;
+#else
+typedef uint64_t BitInt;
+#endif
+
 // busca exata
+extern void buildKMP(const string &pat);
 extern void buildShiftOr(const string &pat);
 extern void buildAho(const vector<string> &pats);
 
@@ -25,7 +32,7 @@ extern vector<Occurance> ShiftOr(const string &txt, const string &pat);
 
 // busca aproximada
 extern void buildWuMamber(const string& pat);
-extern void buildUK(const string& pat, const unsigned r);
+extern void buildUkkonen(const string& pat, const unsigned r);
 
 extern vector<Occurance> Sellers(const string &txt, const string &pat, const unsigned r);
 extern vector<Occurance> Ukkonen(const string &txt, const string &pat, const unsigned r);
