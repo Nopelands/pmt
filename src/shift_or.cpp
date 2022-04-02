@@ -17,13 +17,13 @@ vector<Occurance> ShiftOr(const string &txt, const string &pat) {
     vector<Occurance> occ;
     const unsigned txtSize = txt.size();
     const unsigned patSize = pat.size();
-    const uint64_t lim = -1ULL << (patSize - 1);
+    const uint64_t lim = 1ULL << (patSize - 1);
 
     uint64_t state = -1ULL;
     for (unsigned i = 0; i < txtSize; ++i) {
         state = (state << 1) | SO[(uint8_t)txt[i]];
 
-      if (state < lim)
+      if (!(state & lim))
           occ.push_back({i, 0});
     }
 

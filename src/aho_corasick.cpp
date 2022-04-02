@@ -84,7 +84,7 @@ vector<Occurance> ahoCorasick(const string &txt, const vector<string> &pats) {
             continue;
 
         for (unsigned j = 0; j < patsSize; ++j)
-            if (out[currentState] & (1 << j))
+            if (out[currentState] & (1ULL << j))
                 occ.push_back({i, j});
     }
 
