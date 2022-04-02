@@ -1,7 +1,7 @@
 #include "main.h"
 #include <queue>
 
-vector<BitInt> out;
+vector<uint64_t> out;
 unsigned f[AB_SIZE];
 vector<vector<int>> g;
 

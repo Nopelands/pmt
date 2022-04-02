@@ -1,13 +1,13 @@
 #include "main.h"
 
-BitInt WM[AB_SIZE];
+uint64_t WM[AB_SIZE];
 
 void buildWuMamber(const string& pat) {
     const unsigned patSize = pat.size();
 
     memset(WM, -1, AB_SIZE * sizeof(WM[0]));
     
-    for (BitInt i = 0, j = 1; i < patSize; ++i, j <<= 1)
+    for (uint64_t i = 0, j = 1; i < patSize; ++i, j <<= 1)
         WM[(uint8_t)pat[i]] &= ~j;
 
 }
@@ -17,10 +17,10 @@ vector<Occurance> WuMamber(const string& txt, const string& pat, const unsigned 
     const unsigned txtSize = txt.size();
     const unsigned patSize = pat.size();
 
-    const BitInt check = (1 << (patSize - 1));
+    const uint64_t check = (1 << (patSize - 1));
 
     vector<Occurance> occ;
-    vector<BitInt> s(r + 1);
+    vector<uint64_t> s(r + 1);
     s[0] = -1ULL;
 
     for (unsigned i = 1; i <= r; ++i)

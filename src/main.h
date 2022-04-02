@@ -14,12 +14,6 @@ struct Occurance {
     unsigned index, pat_index;
 };
 
-#if defined(__GNUC__)
-__extension__ typedef unsigned __int128 BitInt;
-#else
-typedef uint64_t BitInt;
-#endif
-
 // busca exata
 extern void buildKMP(const string &pat);
 extern void buildShiftOr(const string &pat);
