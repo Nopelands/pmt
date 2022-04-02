@@ -3,7 +3,7 @@
 #include <fstream>
 #include <iostream>
 
-uint64_t getTime() {
+long long getTime() {
     return chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
 }
 
@@ -17,7 +17,7 @@ int main(const int argc, const char *argv[]) {
     int edit = 0, counter = 0;
     vector<const char*> TXTfiles;
     const char *patFile = NULL, *algorithm = "auto";
-    uint64_t ms_ini = getTime();
+    long long ms_ini = getTime();
 
     for (int i = 1; i < argc; i++) {
         string flag(argv[i++]);

@@ -4,12 +4,13 @@ OBJS = $(SRCS:.cpp=.o))
 
 KERNEL = $(shell uname -s)
 ifeq ($(KERNEL),Linux)
-	EXE = pcc
+	EXE = ../bin/pcc
 else
-	EXE = pcc.exe
+	EXE = ../bin/pcc.exe
 endif
 
 build:
+	mkdir -p ../bin
 	g++ -o $(EXE) $(SRCS) -O3 -Wall -Wcast-qual
 
 clean:
