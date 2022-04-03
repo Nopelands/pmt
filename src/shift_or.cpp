@@ -12,9 +12,9 @@ void buildShiftOr(const string &pat) {
         SO[(uint8_t)pat[i]] &= ~j;
 }
 
-vector<Occurance> ShiftOr(const string &txt, const string &pat) {
+unsigned ShiftOr(const string &txt, const string &pat) {
 
-    vector<Occurance> occ;
+    unsigned occ = 0;
     const unsigned txtSize = txt.size();
     const unsigned patSize = pat.size();
     const uint64_t lim = 1ULL << (patSize - 1);
@@ -23,8 +23,8 @@ vector<Occurance> ShiftOr(const string &txt, const string &pat) {
     for (unsigned i = 0; i < txtSize; ++i) {
         state = (state << 1) | SO[(uint8_t)txt[i]];
 
-      if (!(state & lim))
-          occ.push_back({i, 0});
+      if (!(state & lim)) [[unlikely]]
+          occ++;
     }
 
     return occ;

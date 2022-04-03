@@ -1,11 +1,6 @@
 #include "main.h"
-#include <chrono>
 #include <fstream>
 #include <iostream>
-
-long long getTime() {
-    return chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch()).count();
-}
 
 void help() {
 
@@ -17,7 +12,6 @@ int main(const int argc, const char *argv[]) {
     int edit = 0, counter = 0;
     vector<const char*> TXTfiles;
     const char *patFile = NULL, *algorithm = "auto";
-    long long ms_ini = getTime();
 
     for (int i = 1; i < argc; i++) {
         string flag(argv[i++]);
@@ -56,13 +50,12 @@ int main(const int argc, const char *argv[]) {
             ifstream file(f);
 
             for (string s; getline(file, s); l++) {
-                vector<Occurance> occ = ahoCorasick(s, patText);
+                unsigned occ = ahoCorasick(s, patText);
 
                 if (count)
-                    counter += occ.size();
-                else
-                    for (auto c : occ)
-                        printf("Palavra %s encontrada no index %d da linha %d no arquivo %s\n", patText[c.pat_index].c_str(), c.index, l, f);
+                    counter += occ;
+                else if (occ)
+                    printf("%s\n", s.c_str());
             }
 
             file.close();
@@ -71,7 +64,9 @@ int main(const int argc, const char *argv[]) {
     else
         for (string pat : patText) {
 
-            if (funct == "knuth-morris-pratt" || funct == "kmp")
+            if (funct == "boyer-moore")
+                buildBoyer(pat);
+            else if (funct == "knuth-morris-pratt" || funct == "kmp")
                 buildKMP(pat);
             else if (funct == "shift-or")
                 buildShiftOr(pat);
@@ -85,10 +80,7 @@ int main(const int argc, const char *argv[]) {
                 int l = 0;
                 ifstream file(f);
                 for (string s; getline(file, s); l++) {
-                    vector<Occurance> occ;
-
-                    if (s.size() < pat.size())
-                        continue;
+                    unsigned occ;
 
                     if (funct == "boyer-moore")
                         occ = BoyerMoore(s, pat);
@@ -108,19 +100,16 @@ int main(const int argc, const char *argv[]) {
                     }
 
                     if (count)
-                        counter += occ.size();
-                    else
-                        for (auto c : occ)
-                            printf("Palavra %s encontrada no index %d da linha %d no arquivo %s\n", pat.c_str(), c.index, l, f);
+                        counter += occ;
+                    else if (occ)
+                        printf("%s\n", s.c_str());
                 }
                 file.close();
             }
         }
 
     if (count)
-        printf("Ao total foram encontrados %d padroes\n", counter);
-
-    printf("Codigo executado em %lldms\n", getTime() - ms_ini);
+        printf("%d\n", counter);
 
     return 0;
 }

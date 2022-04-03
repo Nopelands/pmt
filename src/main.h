@@ -10,26 +10,23 @@ using namespace std;
 
 #define AB_SIZE 256
 
-struct Occurance {
-    unsigned index, pat_index;
-};
-
 // busca exata
+extern void buildBoyer(const string &pat);
 extern void buildKMP(const string &pat);
 extern void buildShiftOr(const string &pat);
 extern void buildAho(const vector<string> &pats);
 
-extern vector<Occurance> ahoCorasick(const string &txt, const vector<string> &pats);
-extern vector<Occurance> BoyerMoore(const string &txt, const string &pat);
-extern vector<Occurance> KnuthMorrisPratt(const string &txt, const string &pat);
-extern vector<Occurance> ShiftOr(const string &txt, const string &pat);
+extern unsigned ahoCorasick(const string &txt, const vector<string> &pats);
+extern unsigned BoyerMoore(const string &txt, const string &pat);
+extern unsigned KnuthMorrisPratt(const string &txt, const string &pat);
+extern unsigned ShiftOr(const string &txt, const string &pat);
 
 // busca aproximada
 extern void buildWuMamber(const string& pat);
 extern void buildUkkonen(const string& pat, const unsigned r);
 
-extern vector<Occurance> Sellers(const string &txt, const string &pat, const unsigned r);
-extern vector<Occurance> Ukkonen(const string &txt, const string &pat, const unsigned r);
-extern vector<Occurance> WuMamber(const string &txt, const string &pat, const unsigned r);
+extern unsigned Sellers(const string &txt, const string &pat, const unsigned r);
+extern unsigned Ukkonen(const string &txt, const string &pat, const unsigned r);
+extern unsigned WuMamber(const string &txt, const string &pat, const unsigned r);
 
 #endif

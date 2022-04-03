@@ -71,21 +71,19 @@ inline unsigned findNextState(unsigned currentState, char nextInput) {
     return g[currentState][(uint8_t)nextInput];
 }
 
-vector<Occurance> ahoCorasick(const string &txt, const vector<string> &pats) {
+unsigned ahoCorasick(const string &txt, const vector<string> &pats) {
 
-    vector<Occurance> occ;
+    unsigned occ = 0;
     const unsigned txtSize = txt.size();
     const unsigned patsSize = pats.size();
 
     for (unsigned i = 0, currentState = 0; i < txtSize; ++i) {
         currentState = findNextState(currentState, txt[i]);
 
-        if (!out[currentState])
-            continue;
-
-        for (unsigned j = 0; j < patsSize; ++j)
-            if (out[currentState] & (1ULL << j))
-                occ.push_back({i, j});
+        if (out[currentState]) [[unlikely]]
+            for (unsigned j = 0; j < patsSize; ++j)
+                if (out[currentState] & (1ULL << j))
+                    occ++;
     }
 
     return occ;

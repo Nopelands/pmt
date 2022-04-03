@@ -9,7 +9,7 @@ endif
 
 build:
 	mkdir -p ../bin
-	g++ -o $(EXE) $(SRCS) -O3 -Wall -Wcast-qual
+	g++ -o $(EXE) $(SRCS) -O3 -Wall -Wcast-qual -std=c++20
 
 clean:
 	@rm -f -r ../bin

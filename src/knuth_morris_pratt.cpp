@@ -7,21 +7,14 @@ void buildKMP(const string &pat) {
     nxt.assign(patSize + 1, -1);
 
     for (unsigned i = 1; i <= patSize; ++i)
-        for (unsigned j = 0; j < i; ++j) {
-            bool check = true;
-
-            for (unsigned k = 0; k < j && check; ++k)
-                if (pat[k] != pat[i - j + k])
-                    check = false;
-
-            if (check)
+        for (unsigned j = 0; j < i; ++j)
+            if (!memcmp(pat.data(), pat.data() + i - j, j))
                 nxt[i] = j;
-        }
 }
 
-vector<Occurance> KnuthMorrisPratt(const string &txt, const string &pat) {
+unsigned KnuthMorrisPratt(const string &txt, const string &pat) {
 
-    vector<Occurance> occ;
+    unsigned occ = 0;
     const unsigned txtSize = txt.size();
     const unsigned patSize = pat.size();
 
@@ -30,8 +23,8 @@ vector<Occurance> KnuthMorrisPratt(const string &txt, const string &pat) {
         while (j < patSize && pat[j] == txt[i + j])
             j++;
 
-        if (j == patSize)
-            occ.push_back({i, 0});
+        if (j == patSize) [[unlikely]]
+            occ++;
 
         i += j - nxt[j];
         j = max((int16_t)0, nxt[j]);

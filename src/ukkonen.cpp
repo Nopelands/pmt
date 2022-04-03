@@ -51,17 +51,17 @@ void buildUkkonen(const string& pat, const unsigned r) {
     }
 }
 
-vector<Occurance> Ukkonen(const string &txt, const string &pat, const unsigned r) {
+unsigned Ukkonen(const string &txt, const string &pat, const unsigned r) {
 
-    vector<Occurance> occ;
+    unsigned occ = 0;
     unsigned curState = 0;
     const unsigned txtSize = txt.size();
 
     for (unsigned i = 0; i < txtSize; ++i) {
         curState = delta[curState][txt[i]];
 
-        if (finalState[curState])
-            occ.push_back({i, 0});
+        if (finalState[curState]) [[unlikely]]
+            occ++;
     }
 
     return occ;

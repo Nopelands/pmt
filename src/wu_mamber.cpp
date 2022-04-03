@@ -12,14 +12,14 @@ void buildWuMamber(const string& pat) {
 
 }
 
-vector<Occurance> WuMamber(const string& txt, const string& pat, const unsigned r) {
+unsigned WuMamber(const string& txt, const string& pat, const unsigned r) {
 
     const unsigned txtSize = txt.size();
     const unsigned patSize = pat.size();
 
     const uint64_t lim = 1ULL << (patSize - 1);
 
-    vector<Occurance> occ;
+    unsigned occ = 0;
     vector<uint64_t> s(r + 1);
     s[0] = -1ULL;
 
@@ -33,8 +33,8 @@ vector<Occurance> WuMamber(const string& txt, const string& pat, const unsigned 
         for (unsigned j = 1, temp; j <= r; ++j, previous = temp)
             s[j] = previous & (previous << 1) & (s[j - 1] << 1) & (((temp = s[j]) << 1) | WM[(uint8_t)txt[i]]);
 
-        if (!(s[r] & lim))
-            occ.push_back({i, 0});
+        if (!(s[r] & lim)) [[unlikely]]
+            occ++;
     }
 
     return occ;
