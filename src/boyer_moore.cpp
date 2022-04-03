@@ -1,4 +1,5 @@
 #include "main.h"
+#include <iostream>
 
 int badchar[AB_SIZE];
 vector<int> goodchar;
@@ -27,10 +28,10 @@ void buildBoyer(const string &pat) {
 unsigned BoyerMoore(const string &txt, const string &pat) {
 
     unsigned occ = 0;
-    const unsigned patSize = pat.size();
-    const unsigned txtSize = txt.size() - patSize;
+    const int patSize = pat.size();
+    const int txtSize = txt.size() - patSize;
 
-    for (unsigned i = 0; i <= txtSize;) {
+    for (int i = 0; i <= txtSize;) {
         int j = patSize - 1;
 
         while (j >= 0 && pat[j] == txt[i + j])

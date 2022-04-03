@@ -15,10 +15,10 @@ void buildKMP(const string &pat) {
 unsigned KnuthMorrisPratt(const string &txt, const string &pat) {
 
     unsigned occ = 0;
-    const unsigned txtSize = txt.size();
-    const unsigned patSize = pat.size();
+    const int patSize = pat.size();
+    const int txtSize = txt.size() - patSize;
 
-    for (unsigned i = 0, j = 0; i <= txtSize - patSize; ) {
+    for (int i = 0, j = 0; i <= txtSize; ) {
 
         while (j < patSize && pat[j] == txt[i + j])
             j++;

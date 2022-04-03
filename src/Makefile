@@ -2,9 +2,9 @@ SRCS = aho_corasick.cpp boyer_moore.cpp knuth_morris_pratt.cpp main.cpp sellers.
 
 KERNEL = $(shell uname -s)
 ifeq ($(KERNEL),Linux)
-	EXE = ../bin/pcc
+	EXE = ../bin/pmt
 else
-	EXE = ../bin/pcc.exe
+	EXE = ../bin/pmt.exe
 endif
 
 build:
