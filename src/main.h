@@ -16,7 +16,7 @@ extern void buildKMP(const string &pat);
 extern void buildShiftOr(const string &pat);
 extern void buildAho(const vector<string> &pats);
 
-extern unsigned ahoCorasick(const string &txt, const vector<string> &pats);
+extern unsigned ahoCorasick(const string &txt);
 extern unsigned BoyerMoore(const string &txt, const string &pat);
 extern unsigned KnuthMorrisPratt(const string &txt, const string &pat);
 extern unsigned ShiftOr(const string &txt, const string &pat);

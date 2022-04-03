@@ -1,26 +1,27 @@
 #include "main.h"
 #include <queue>
+#include <set>
 
-vector<uint64_t> out;
 unsigned f[AB_SIZE];
+vector<unsigned> out;
 vector<vector<int>> g;
 
 void buildAho(const vector<string> &pats) {
 
-    memset(f, -1, AB_SIZE * sizeof(f[0]));
+    out.assign(1, 0);
+    vector<set<unsigned>> aux(1);
     g.assign(1, vector<int>(AB_SIZE, -1));
-    out.assign(1, 0ULL);
+    memset(f, -1, AB_SIZE * sizeof(f[0]));
 
-    int states = 1;
-
+    unsigned states = 1;
     for (unsigned i = 0; i < pats.size(); ++i) {
         int currentState = 0;
 
         for (char c : pats[i]){
             if (g[currentState][(uint8_t)c] == -1) {
 
+                aux.push_back(set<unsigned>());
                 g.push_back(vector<int>(AB_SIZE, -1));
-                out.push_back(0ULL);
 
                 g[currentState][(uint8_t)c] = states++;
             }
@@ -28,7 +29,7 @@ void buildAho(const vector<string> &pats) {
             currentState = g[currentState][(uint8_t)c];
         }
 
-        out[currentState] |= (1 << i);
+        aux[currentState].insert(i);
     }
 
     queue<int> q;
@@ -55,12 +56,15 @@ void buildAho(const vector<string> &pats) {
                     failure = f[failure];
                 
                 f[g[state][i]] = failure = g[failure][i];
-
-                out[g[state][i]] |= out[failure];
+                aux[g[state][i]].insert(aux[failure].begin(), aux[failure].end());
 
                 q.push(g[state][i]);
             }
     }
+
+    out.resize(states);
+    for (unsigned i = 0; i < states; ++i)
+        out[i] = aux[i].size();
 }
 
 inline unsigned findNextState(unsigned currentState, char nextInput) {
@@ -71,19 +75,16 @@ inline unsigned findNextState(unsigned currentState, char nextInput) {
     return g[currentState][(uint8_t)nextInput];
 }
 
-unsigned ahoCorasick(const string &txt, const vector<string> &pats) {
+unsigned ahoCorasick(const string &txt) {
 
     unsigned occ = 0;
     const unsigned txtSize = txt.size();
-    const unsigned patsSize = pats.size();
 
     for (unsigned i = 0, currentState = 0; i < txtSize; ++i) {
         currentState = findNextState(currentState, txt[i]);
 
         if (out[currentState]) [[unlikely]]
-            for (unsigned j = 0; j < patsSize; ++j)
-                if (out[currentState] & (1ULL << j))
-                    occ++;
+            occ += out[currentState];
     }
 
     return occ;

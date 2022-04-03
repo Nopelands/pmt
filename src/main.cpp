@@ -50,7 +50,7 @@ int main(const int argc, const char *argv[]) {
             ifstream file(f);
 
             for (string s; getline(file, s); l++) {
-                unsigned occ = ahoCorasick(s, patText);
+                unsigned occ = ahoCorasick(s);
 
                 if (count)
                     counter += occ;

@@ -16,8 +16,8 @@ void buildBoyer(const string &pat) {
 
         int j, k = patSize - i;
         for (j = patSize - 1; j >= 0; --j)
-            if ((j >= k && !memcmp(pat.data() + i, pat.data() + j - k      , k))
-            ||  (j <  k && !memcmp(pat.data()    , pat.data() + patSize - j, j)))
+            if ((j >= k && !pat.compare(i, k, pat,       j - k, k))
+            ||  (j <  k && !pat.compare(0, j, pat, patSize - j, j)))
                 break;
 
         goodchar[(i + patSize) % (patSize + 1)] = patSize - j;

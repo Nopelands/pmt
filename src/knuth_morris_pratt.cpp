@@ -8,7 +8,7 @@ void buildKMP(const string &pat) {
 
     for (unsigned i = 1; i <= patSize; ++i)
         for (unsigned j = 0; j < i; ++j)
-            if (!memcmp(pat.data(), pat.data() + i - j, j))
+            if (!pat.compare(0, j, pat, i - j, j))
                 nxt[i] = j;
 }
 
