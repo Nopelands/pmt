@@ -2,7 +2,10 @@
 #include <fstream>
 
 void help() {
-    printf("help message\n");
+    ifstream file("../doc/help.txt");
+    for (string s; getline(file, s);)
+        printf("%s\n", s.c_str());
+    file.close();
 }
 
 int main(const int argc, const char *argv[]) {
@@ -41,7 +44,7 @@ int main(const int argc, const char *argv[]) {
 
     string funct = algorithm;
 
-    if (funct == "aho-corasick") {
+    if (funct == "aho-corasick" || funct == "ac") {
         buildAho(patText);
 
         for (auto f : TXTfiles) {
@@ -63,15 +66,15 @@ int main(const int argc, const char *argv[]) {
     else
         for (string pat : patText) {
 
-            if (funct == "boyer-moore")
+            if (funct == "boyer-moore" || funct == "bm")
                 buildBoyer(pat);
             else if (funct == "knuth-morris-pratt" || funct == "kmp")
                 buildKMP(pat);
-            else if (funct == "shift-or")
+            else if (funct == "shift-or" || funct == "so")
                 buildShiftOr(pat);
-            else if (funct == "ukkonen")
+            else if (funct == "ukkonen" || funct == "uk")
                 buildUkkonen(pat, edit);
-            else if (funct == "wu-mamber")
+            else if (funct == "wu-mamber" || funct == "wm")
                 buildWuMamber(pat);
 
             for (auto f : TXTfiles) {
@@ -81,17 +84,17 @@ int main(const int argc, const char *argv[]) {
                 for (string s; getline(file, s); l++) {
                     unsigned occ;
 
-                    if (funct == "boyer-moore")
+                    if (funct == "boyer-moore" || funct == "bm")
                         occ = BoyerMoore(s, pat);
                     else if (funct == "knuth-morris-pratt" || funct == "kmp")
                         occ = KnuthMorrisPratt(s, pat);
-                    else if (funct == "sellers")
+                    else if (funct == "sellers" || funct == "sl")
                         occ = Sellers(s, pat, edit);
-                    else if (funct == "shift-or")
+                    else if (funct == "shift-or" || funct == "so")
                         occ = ShiftOr(s, pat);
-                    else if (funct == "ukkonen")
+                    else if (funct == "ukkonen" || funct == "uk")
                         occ = Ukkonen(s, pat);
-                    else if (funct == "wu-mamber")
+                    else if (funct == "wu-mamber" || funct == "wm")
                         occ = WuMamber(s, pat, edit);
                     else {
                         help();
