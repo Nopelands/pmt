@@ -23,7 +23,7 @@ int main(const int argc, const char *argv[]) {
         else if (flag == "-a" || flag == "--algorithm")
             algorithm = argv[i];
         else if (flag == "-c" || flag == "--count")
-            count = true;
+            count = true, --i;
         else
             TXTfiles.push_back(argv[--i]);
     }
