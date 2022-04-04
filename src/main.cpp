@@ -8,6 +8,10 @@ void help() {
     file.close();
 }
 
+void usage() {
+    printf("Usage: pmt [options] pattern textfile [textfile...]\nTry 'pmt --help' for more information.\n");
+}
+
 int main(const int argc, const char *argv[]) {
 
     bool count = false;
@@ -26,12 +30,16 @@ int main(const int argc, const char *argv[]) {
             algorithm = argv[i];
         else if (flag == "-c" || flag == "--count")
             count = true, --i;
+        else if (flag == "-h" || flag == "--help") {
+            help();
+            return 0;
+        }
         else
             TXTfiles.push_back(argv[--i]);
     }
 
     if (TXTfiles.size() == 0 || !patFile)
-        help();
+        usage();
 
     vector<string> patText;
     ifstream file(patFile);
@@ -97,7 +105,7 @@ int main(const int argc, const char *argv[]) {
                     else if (funct == "wu-manber" || funct == "wm")
                         occ = WuManber(s, pat, edit);
                     else {
-                        help();
+                        usage();
                         return 1;
                     }
 
