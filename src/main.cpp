@@ -74,8 +74,8 @@ int main(const int argc, const char *argv[]) {
                 buildShiftOr(pat);
             else if (funct == "ukkonen" || funct == "uk")
                 buildUkkonen(pat, edit);
-            else if (funct == "wu-mamber" || funct == "wm")
-                buildWuMamber(pat);
+            else if (funct == "wu-manber" || funct == "wm")
+                buildWuManber(pat);
 
             for (auto f : TXTfiles) {
 
@@ -94,8 +94,8 @@ int main(const int argc, const char *argv[]) {
                         occ = ShiftOr(s, pat);
                     else if (funct == "ukkonen" || funct == "uk")
                         occ = Ukkonen(s, pat);
-                    else if (funct == "wu-mamber" || funct == "wm")
-                        occ = WuMamber(s, pat, edit);
+                    else if (funct == "wu-manber" || funct == "wm")
+                        occ = WuManber(s, pat, edit);
                     else {
                         help();
                         return 1;

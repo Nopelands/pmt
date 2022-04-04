@@ -1,4 +1,4 @@
-SRCS = aho_corasick.cpp boyer_moore.cpp knuth_morris_pratt.cpp main.cpp sellers.cpp shift_or.cpp ukkonen.cpp wu_mamber.cpp
+SRCS = aho_corasick.cpp boyer_moore.cpp knuth_morris_pratt.cpp main.cpp sellers.cpp shift_or.cpp ukkonen.cpp wu_manber.cpp
 
 KERNEL = $(shell uname -s)
 ifeq ($(KERNEL),Linux)

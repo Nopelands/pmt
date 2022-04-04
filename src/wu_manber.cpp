@@ -2,7 +2,7 @@
 
 uint64_t WM[AB_SIZE];
 
-void buildWuMamber(const string& pat) {
+void buildWuManber(const string& pat) {
     const unsigned patSize = pat.size();
 
     memset(WM, -1, AB_SIZE * sizeof(WM[0]));
@@ -11,7 +11,7 @@ void buildWuMamber(const string& pat) {
 
 }
 
-unsigned WuMamber(const string& txt, const string& pat, const unsigned r) {
+unsigned WuManber(const string& txt, const string& pat, const unsigned r) {
 
     const unsigned txtSize = txt.size();
     const unsigned patSize = pat.size();

@@ -22,11 +22,11 @@ extern unsigned KnuthMorrisPratt(const string &txt, const string &pat);
 extern unsigned ShiftOr(const string &txt, const string &pat);
 
 // busca aproximada
-extern void buildWuMamber(const string& pat);
+extern void buildWuManber(const string& pat);
 extern void buildUkkonen(const string& pat, const unsigned r);
 
 extern unsigned Sellers(const string &txt, const string &pat, const unsigned r);
 extern unsigned Ukkonen(const string &txt, const string &pat);
-extern unsigned WuMamber(const string &txt, const string &pat, const unsigned r);
+extern unsigned WuManber(const string &txt, const string &pat, const unsigned r);
 
 #endif
