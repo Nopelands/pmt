@@ -1,6 +1,5 @@
 #include "main.h"
 #include <fstream>
-#include <iostream>
 
 void help() {
     printf("help message\n");
@@ -91,7 +90,7 @@ int main(const int argc, const char *argv[]) {
                     else if (funct == "shift-or")
                         occ = ShiftOr(s, pat);
                     else if (funct == "ukkonen")
-                        occ = Ukkonen(s, pat, edit);
+                        occ = Ukkonen(s, pat);
                     else if (funct == "wu-mamber")
                         occ = WuMamber(s, pat, edit);
                     else {

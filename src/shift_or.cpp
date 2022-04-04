@@ -3,7 +3,7 @@
 uint64_t SO[AB_SIZE];
 
 void buildShiftOr(const string &pat) {
-  
+
     const unsigned patSize = pat.size();
     
     memset(SO, -1, AB_SIZE * sizeof(SO[0]));

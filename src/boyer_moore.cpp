@@ -1,17 +1,16 @@
 #include "main.h"
-#include <iostream>
 
-int badchar[AB_SIZE];
-vector<int> goodchar;
+int badChar[AB_SIZE];
+vector<int> goodChar;
 
 void buildBoyer(const string &pat) {
     const unsigned patSize = pat.size();
 
-    goodchar.assign(patSize + 1, 0);
-    memset(badchar, -1, AB_SIZE * sizeof(badchar[0]));
+    goodChar.assign(patSize + 1, 0);
+    memset(badChar, -1, AB_SIZE * sizeof(badChar[0]));
 
     for (unsigned i = 0; i < patSize; ++i)
-        badchar[(uint8_t)pat[i]] = i;
+        badChar[(uint8_t)pat[i]] = i;
 
     for (unsigned i = 0; i <= patSize; ++i) {
 
@@ -21,7 +20,7 @@ void buildBoyer(const string &pat) {
             ||  (j <  k && !pat.compare(0, j, pat, patSize - j, j)))
                 break;
 
-        goodchar[(i + patSize) % (patSize + 1)] = patSize - j;
+        goodChar[(i + patSize) % (patSize + 1)] = patSize - j;
     }
 }
 
@@ -38,9 +37,9 @@ unsigned BoyerMoore(const string &txt, const string &pat) {
             j--;
 
         if (j < 0) [[unlikely]]
-            occ++, i += goodchar[patSize];
+            occ++, i += goodChar[patSize];
         else
-            i += max(goodchar[j], j - badchar[(uint8_t)txt[i + j]]);
+            i += max(goodChar[j], j - badChar[(uint8_t)txt[i + j]]);
     }
 
     return occ;

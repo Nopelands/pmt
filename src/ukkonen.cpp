@@ -51,7 +51,7 @@ void buildUkkonen(const string& pat, const unsigned r) {
     }
 }
 
-unsigned Ukkonen(const string &txt, const string &pat, const unsigned r) {
+unsigned Ukkonen(const string &txt, const string &pat) {
 
     unsigned occ = 0;
     unsigned curState = 0;

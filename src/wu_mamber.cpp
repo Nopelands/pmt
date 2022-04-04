@@ -6,7 +6,6 @@ void buildWuMamber(const string& pat) {
     const unsigned patSize = pat.size();
 
     memset(WM, -1, AB_SIZE * sizeof(WM[0]));
-    
     for (uint64_t i = 0, j = 1; i < patSize; ++i, j <<= 1)
         WM[(uint8_t)pat[i]] &= ~j;
 

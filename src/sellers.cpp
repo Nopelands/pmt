@@ -8,7 +8,7 @@ unsigned Sellers(const string &txt, const string &pat, const unsigned r) {
     const unsigned txtSize = txt.size();
     const unsigned patSize = pat.size();
     SS.resize(patSize + 1);
-  
+
     for (unsigned i = 0; i <= patSize; ++i)
         SS[i] = i;
 
@@ -20,6 +20,5 @@ unsigned Sellers(const string &txt, const string &pat, const unsigned r) {
         if (SS[patSize] <= r) [[unlikely]]
             occ++;
     }
-
     return occ;
 }
