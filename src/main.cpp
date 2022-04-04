@@ -12,45 +12,69 @@ void usage() {
     printf("Usage: pmt [options] pattern textfile [textfile...]\nTry 'pmt --help' for more information.\n");
 }
 
+string select_alg(const vector <string> &patVector) {
+    if (patVector.size() > 1)
+        return "ac";
+    else if (patVector[0].size() <= 8)
+        return "so";
+    else
+        return "bm";
+}
+
 int main(const int argc, const char *argv[]) {
 
     bool count = false;
     int edit = 0, counter = 0;
     vector<const char*> TXTfiles;
     const char *patFile = NULL, *algorithm = "auto";
+    vector<string> patText;
 
     for (int i = 1; i < argc; i++) {
         string flag(argv[i++]);
 
-        if (flag == "-e" || flag == "--edit")
+        if (flag == "-e" || flag == "--edit") {
             edit = atoi(argv[i]);
-        else if (flag == "-p" || flag == "--pattern")
+        }
+        else if (flag == "-p" || flag == "--pattern") {
             patFile = argv[i];
-        else if (flag == "-a" || flag == "--algorithm")
+        }
+        else if (flag == "-a" || flag == "--algorithm") {
             algorithm = argv[i];
-        else if (flag == "-c" || flag == "--count")
+        }
+        else if (flag == "-c" || flag == "--count") {
             count = true, --i;
+        }
         else if (flag == "-h" || flag == "--help") {
             help();
             return 0;
         }
-        else
+        else {
             TXTfiles.push_back(argv[--i]);
+        }
     }
 
-    if (TXTfiles.size() == 0 || !patFile)
+    if (TXTfiles.size() <= 0 + !patFile) {
         usage();
+    }
+    if (patFile) {
+        ifstream file(patFile);
 
-    vector<string> patText;
-    ifstream file(patFile);
+        for (string s; getline(file, s);)
+            if (s.size())
+                patText.push_back(s);
 
-    for (string s; getline(file, s);)
-        if (s.size())
-            patText.push_back(s);
+        file.close();
+    } else {
+        patText.push_back(TXTfiles[0]);
+        TXTfiles.assign(TXTfiles.begin() + 1, TXTfiles.end());
+    }
 
-    file.close();
 
     string funct = algorithm;
+
+    if (funct == "auto") {
+        funct = select_alg(patText);
+    }
 
     if (funct == "aho-corasick" || funct == "ac") {
         buildAho(patText);
@@ -71,7 +95,7 @@ int main(const int argc, const char *argv[]) {
             file.close();
         }
     }
-    else
+    else{
         for (string pat : patText) {
 
             if (funct == "boyer-moore" || funct == "bm")
@@ -116,7 +140,7 @@ int main(const int argc, const char *argv[]) {
                 }
                 file.close();
             }
-        }
+        }}
 
     if (count)
         printf("%d\n", counter);

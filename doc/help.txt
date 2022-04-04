@@ -1,6 +1,6 @@
 Usage: pmt [options] pattern textfile [textfile...]
 Search for pattern in each textfile.
-Example: pmt -a aho-corasick -p pat.txt text.txt
+Example: pmt 'test' text.txt
 
 Pattern selection and interpretation:
   -a, --algorithm           force usage of selected algorithm (ac, bm, kmp, sl, so, uk, wm)
