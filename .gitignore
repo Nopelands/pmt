@@ -1,3 +1,4 @@
 *.o
 */pmt*
-*/test*
+*test*
+*.idea*
