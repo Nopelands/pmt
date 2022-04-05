@@ -30,32 +30,29 @@ int main(const int argc, const char *argv[]) {
     vector<string> patText;
 
     for (int i = 1; i < argc; i++) {
-        string flag(argv[i++]);
+        string flag(argv[i]);
 
-        if (flag == "-e" || flag == "--edit") {
-            edit = atoi(argv[i]);
-        }
-        else if (flag == "-p" || flag == "--pattern") {
-            patFile = argv[i];
-        }
-        else if (flag == "-a" || flag == "--algorithm") {
-            algorithm = argv[i];
-        }
-        else if (flag == "-c" || flag == "--count") {
-            count = true, --i;
-        }
+        if (flag == "-e" || flag == "--edit")
+            edit = atoi(argv[++i]);
+        else if (flag == "-p" || flag == "--pattern")
+            patFile = argv[++i];
+        else if (flag == "-a" || flag == "--algorithm")
+            algorithm = argv[++i];
+        else if (flag == "-c" || flag == "--count")
+            count = true;
         else if (flag == "-h" || flag == "--help") {
             help();
             return 0;
         }
-        else {
-            TXTfiles.push_back(argv[--i]);
-        }
+        else
+            TXTfiles.push_back(argv[i]);
     }
 
     if (TXTfiles.size() <= 0 + !patFile) {
         usage();
+        return 1;
     }
+
     if (patFile) {
         ifstream file(patFile);
 
@@ -72,9 +69,8 @@ int main(const int argc, const char *argv[]) {
 
     string funct = algorithm;
 
-    if (funct == "auto") {
+    if (funct == "auto")
         funct = select_alg(patText);
-    }
 
     if (funct == "aho-corasick" || funct == "ac") {
         buildAho(patText);
@@ -95,7 +91,7 @@ int main(const int argc, const char *argv[]) {
             file.close();
         }
     }
-    else{
+    else
         for (string pat : patText) {
 
             if (funct == "boyer-moore" || funct == "bm")
@@ -140,7 +136,7 @@ int main(const int argc, const char *argv[]) {
                 }
                 file.close();
             }
-        }}
+        }
 
     if (count)
         printf("%d\n", counter);
