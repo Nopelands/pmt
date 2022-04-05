@@ -25,7 +25,7 @@ unsigned ShiftOr(const string &txt, const string &pat, intType *SO) {
     unsigned occ = 0;
     const intType lim = intType(1) << (pat.size() - 1);
 
-    intType state = -1ULL;
+    intType state = -1;
     for (uint8_t c : txt) {
         state = (state << 1) | SO[c];
 
@@ -45,7 +45,7 @@ void buildShiftOrV(const string &pat) {
     unsigned vecSize = ((pat.size() - 1) / sizeInt) + 1;
 
     for (unsigned i = 0; i < AB_SIZE; ++i)
-        SOv[i].assign(vecSize, bigInt(-1));
+        SOv[i].assign(vecSize, -1);
 
     vector<bigInt> j(vecSize, 0);
     j.back() = 1;

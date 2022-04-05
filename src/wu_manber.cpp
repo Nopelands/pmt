@@ -27,7 +27,7 @@ unsigned WuManber(const string& txt, const string& pat, const unsigned r, intTyp
 
     unsigned occ = 0;
     vector<intType> s(r + 1);
-    s[0] = -1ULL;
+    s[0] = -1;
 
     for (unsigned i = 1; i <= r; ++i)
         s[i] = s[i - 1] << 1;
@@ -55,7 +55,7 @@ void buildWuManberV(const string& pat) {
     const unsigned vecSize = ((pat.size() - 1) / sizeInt) + 1;
 
     for (unsigned i = 0; i < AB_SIZE; ++i)
-        WMv[i].assign(vecSize, bigInt(-1));
+        WMv[i].assign(vecSize, -1);
 
     vector<bigInt> j(vecSize, 0);
     j.back() = 1;
@@ -72,7 +72,7 @@ unsigned WuManberV(const string& txt, const string& pat, const unsigned r) {
 
     unsigned occ = 0;
     vector<vector<bigInt>> s(r + 1);
-    s[0].assign(vecSize, -1ULL);
+    s[0].assign(vecSize, -1);
 
     for (unsigned i = 1; i <= r; ++i)
         s[i] = s[i - 1] << 1;
