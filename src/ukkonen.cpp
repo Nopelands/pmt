@@ -1,5 +1,6 @@
 #include "main.h"
 #include <map>
+#include <queue>
 
 vector<bool> finalState;
 vector<vector<unsigned>> delta;
@@ -27,12 +28,13 @@ void buildUkkonen(const string& pat, const unsigned r) {
     for (unsigned i = 0; i <= patSize; ++i)
         States[0][i] = i;
     
-    vector<pair<vector<unsigned>, unsigned>> q(1, {States[0], 0});
+    queue<pair<vector<unsigned>, unsigned>> q;
+    q.push({States[0], 0});
 
     while (q.size()) {
-        auto cur_col   = q.back().first;
-        auto cur_index = q.back().second;
-        q.pop_back();
+        auto cur_col   = q.front().first;
+        auto cur_index = q.front().second;
+        q.pop();
         
         for (unsigned c = 0; c < AB_SIZE; ++c) {
             auto next = next_col(cur_col, pat, c);
@@ -40,7 +42,7 @@ void buildUkkonen(const string& pat, const unsigned r) {
             if (allStates.find(next) != allStates.end())
                 next_index = allStates[next];
             else {
-                q.push_back({next, next_index = total_states++});
+                q.push({next, next_index = total_states++});
                 allStates[next] = next_index;
                 finalState.push_back(next[patSize] <= r);
                 delta.push_back(vector<unsigned>(AB_SIZE));
