@@ -9,7 +9,7 @@ def is_decimal(s):
 
 def average(file):
     f = open(file, "r")
-    dest = open("average_result_proteins_approx_static.txt", "x")
+    dest = open("average_result_proteins_approx_mut.txt", "x")
     count = 1
     sum = 0
     try:
@@ -34,7 +34,7 @@ def average(file):
         dest.close()
 
 def main():
-    average("result_proteins_approx_static.txt")
+    average("result_proteins_approx_mut.txt")
 
 if __name__ == "__main__":
     main()
