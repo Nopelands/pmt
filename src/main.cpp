@@ -80,7 +80,7 @@ int main(const int argc, const char *argv[]) {
             ifstream file(f);
 
             for (string s; getline(file, s); l++) {
-                unsigned occ = ahoCorasick(s);
+                unsigned occ = ahoCorasick(count, s);
 
                 if (count)
                     counter += occ;
@@ -107,23 +107,22 @@ int main(const int argc, const char *argv[]) {
 
             for (auto f : TXTfiles) {
 
-                int l = 0;
                 ifstream file(f);
-                for (string s; getline(file, s); l++) {
+                for (string s; getline(file, s);) {
                     unsigned occ;
 
                     if (funct == "boyer-moore" || funct == "bm")
-                        occ = BoyerMoore(s, pat);
+                        occ = BoyerMoore(count, s, pat);
                     else if (funct == "knuth-morris-pratt" || funct == "kmp")
-                        occ = KnuthMorrisPratt(s, pat);
+                        occ = KnuthMorrisPratt(count, s, pat);
                     else if (funct == "sellers" || funct == "sl")
-                        occ = Sellers(s, pat, edit);
+                        occ = Sellers(count, s, pat, edit);
                     else if (funct == "shift-or" || funct == "so")
-                        occ = ShiftOr(s, pat);
+                        occ = ShiftOr(count, s, pat);
                     else if (funct == "ukkonen" || funct == "uk")
-                        occ = Ukkonen(s);
+                        occ = Ukkonen(count, s);
                     else if (funct == "wu-manber" || funct == "wm")
-                        occ = WuManber(s, pat, edit);
+                        occ = WuManber(count, s, pat, edit);
                     else {
                         usage();
                         return 1;

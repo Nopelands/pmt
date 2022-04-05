@@ -12,6 +12,7 @@ void buildShiftOr(const string &pat) {
         SO[(uint8_t)pat[i]] &= ~j;
 }
 
+template<bool count>
 unsigned ShiftOr(const string &txt, const string &pat) {
 
     unsigned occ = 0;
@@ -23,9 +24,18 @@ unsigned ShiftOr(const string &txt, const string &pat) {
     for (unsigned i = 0; i < txtSize; ++i) {
         state = (state << 1) | SO[(uint8_t)txt[i]];
 
-      if (!(state & lim)) [[unlikely]]
-          occ++;
+        if (!(state & lim)) [[unlikely]] {
+            if constexpr (!count)
+                return 1;
+
+            occ++;
+        }
     }
 
     return occ;
+}
+
+unsigned ShiftOr(bool count, const string &txt, const string &pat) {
+    return count ? ShiftOr< true>(txt, pat)
+                 : ShiftOr<false>(txt, pat);
 }

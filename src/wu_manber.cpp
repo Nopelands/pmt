@@ -11,6 +11,7 @@ void buildWuManber(const string& pat) {
 
 }
 
+template<bool count>
 unsigned WuManber(const string& txt, const string& pat, const unsigned r) {
 
     const unsigned txtSize = txt.size();
@@ -32,9 +33,18 @@ unsigned WuManber(const string& txt, const string& pat, const unsigned r) {
         for (unsigned j = 1, temp; j <= r; ++j, previous = temp)
             s[j] = previous & (previous << 1) & (s[j - 1] << 1) & (((temp = s[j]) << 1) | WM[(uint8_t)txt[i]]);
 
-        if (!(s[r] & lim)) [[unlikely]]
+        if (!(s[r] & lim)) [[unlikely]] {
+            if constexpr (!count)
+                return 1;
+
             occ++;
+        }
     }
 
     return occ;
+}
+
+unsigned WuManber(bool count, const string& txt, const string& pat, const unsigned r) {
+    return count ? WuManber< true>(txt, pat, r)
+                 : WuManber<false>(txt, pat, r);
 }

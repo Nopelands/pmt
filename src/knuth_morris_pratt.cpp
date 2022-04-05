@@ -12,6 +12,7 @@ void buildKMP(const string &pat) {
                 nxt[i] = j;
 }
 
+template<bool count>
 unsigned KnuthMorrisPratt(const string &txt, const string &pat) {
 
     unsigned occ = 0;
@@ -23,12 +24,21 @@ unsigned KnuthMorrisPratt(const string &txt, const string &pat) {
         while (j < patSize && pat[j] == txt[i + j])
             j++;
 
-        if (j == patSize) [[unlikely]]
+        if (j == patSize) [[unlikely]] {
+            if constexpr (!count)
+                return 1;
+
             occ++;
+        }
 
         i += j - nxt[j];
         j = max((int16_t)0, nxt[j]);
     }
   
     return occ;
+}
+
+unsigned KnuthMorrisPratt(bool count, const string &txt, const string &pat) {
+    return count ? KnuthMorrisPratt< true>(txt, pat)
+                 : KnuthMorrisPratt<false>(txt, pat);
 }

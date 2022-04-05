@@ -24,6 +24,7 @@ void buildBoyer(const string &pat) {
     }
 }
 
+template<bool count>
 unsigned BoyerMoore(const string &txt, const string &pat) {
 
     unsigned occ = 0;
@@ -36,11 +37,20 @@ unsigned BoyerMoore(const string &txt, const string &pat) {
         while (j >= 0 && pat[j] == txt[i + j])
             j--;
 
-        if (j < 0) [[unlikely]]
+        if (j < 0) [[unlikely]] {
+            if constexpr (!count)
+                return 1;
+
             occ++, i += goodChar[patSize];
+        }
         else
             i += max(goodChar[j], j - badChar[(uint8_t)txt[i + j]]);
     }
 
     return occ;
+}
+
+unsigned BoyerMoore(bool count, const string &txt, const string &pat) {
+    return count ? BoyerMoore< true>(txt, pat)
+                 : BoyerMoore<false>(txt, pat);
 }

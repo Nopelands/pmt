@@ -51,6 +51,7 @@ void buildUkkonen(const string& pat, const unsigned r) {
     }
 }
 
+template<bool count>
 unsigned Ukkonen(const string &txt) {
 
     unsigned occ = 0;
@@ -60,9 +61,18 @@ unsigned Ukkonen(const string &txt) {
     for (unsigned i = 0; i < txtSize; ++i) {
         curState = delta[curState][txt[i]];
 
-        if (finalState[curState]) [[unlikely]]
+        if (finalState[curState]) [[unlikely]] {
+            if constexpr (!count)
+                return 1;
+
             occ++;
+        }
     }
 
     return occ;
+}
+
+unsigned Ukkonen(bool count, const string &txt) {
+    return count ? Ukkonen< true>(txt)
+                 : Ukkonen<false>(txt);
 }

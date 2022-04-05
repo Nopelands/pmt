@@ -75,6 +75,7 @@ inline unsigned findNextState(unsigned currentState, char nextInput) {
     return g[currentState][(uint8_t)nextInput];
 }
 
+template<bool count>
 unsigned ahoCorasick(const string &txt) {
 
     unsigned occ = 0;
@@ -83,9 +84,18 @@ unsigned ahoCorasick(const string &txt) {
     for (unsigned i = 0, currentState = 0; i < txtSize; ++i) {
         currentState = findNextState(currentState, txt[i]);
 
-        if (out[currentState]) [[unlikely]]
+        if (out[currentState]) [[unlikely]] {
+            if constexpr (!count)
+                return 1;
+
             occ += out[currentState];
+        }
     }
 
     return occ;
+}
+
+unsigned ahoCorasick(bool count, const string &txt) {
+    return count ? ahoCorasick< true>(txt)
+                 : ahoCorasick<false>(txt);
 }
