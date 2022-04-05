@@ -76,11 +76,11 @@ inline unsigned findNextState(unsigned currentState, char nextInput) {
 template<bool count>
 unsigned ahoCorasick(const string &txt) {
 
-    unsigned occ = 0;
+    unsigned occ = 0, currentState = 0;
     const unsigned txtSize = txt.size();
 
-    for (unsigned i = 0, currentState = 0; i < txtSize; ++i) {
-        currentState = findNextState(currentState, txt[i]);
+    for (uint8_t c : txt) {
+        currentState = findNextState(currentState, c);
 
         if (out[currentState]) [[unlikely]] {
             if constexpr (!count)
