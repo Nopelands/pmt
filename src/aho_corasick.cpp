@@ -77,7 +77,6 @@ template<bool count>
 unsigned ahoCorasick(const string &txt) {
 
     unsigned occ = 0, currentState = 0;
-    const unsigned txtSize = txt.size();
 
     for (uint8_t c : txt) {
         currentState = findNextState(currentState, c);
