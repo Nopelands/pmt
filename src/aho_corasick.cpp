@@ -1,5 +1,6 @@
 #include "main.h"
 #include <set>
+#include <queue>
 
 unsigned f[AB_SIZE];
 vector<unsigned> out;
@@ -30,7 +31,7 @@ void buildAho(const vector<string> &pats) {
         aux[currentState].insert(i);
     }
 
-    vector<int> q;
+    queue<int> q;
 
     for (auto &s : g[0])
         if (s != 0) {
@@ -40,11 +41,11 @@ void buildAho(const vector<string> &pats) {
             }
 
             f[s] = 0;
-            q.push_back(s);
+            q.push(s);
         }
 
     while (!q.empty()) {
-        int state = q.back(); q.pop_back();
+        int state = q.front(); q.pop();
 
         for (int i = 0; i < AB_SIZE; ++i)
             if (g[state][i] != -1) {
@@ -56,7 +57,7 @@ void buildAho(const vector<string> &pats) {
                 f[g[state][i]] = failure = g[failure][i];
                 aux[g[state][i]].insert(aux[failure].begin(), aux[failure].end());
 
-                q.push_back(g[state][i]);
+                q.push(g[state][i]);
             }
     }
 
