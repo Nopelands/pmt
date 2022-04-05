@@ -4,7 +4,7 @@
 vector<bool> finalState;
 vector<vector<unsigned>> delta;
 
-vector<unsigned> next_col(const string& pat, vector<unsigned> &col, char c) {
+vector<unsigned> next_col(const vector<unsigned> &col, const string& pat, char c) {
     const unsigned patSize = pat.size();
     vector<unsigned> next(patSize + 1, 0);
 
@@ -35,7 +35,7 @@ void buildUkkonen(const string& pat, const unsigned r) {
         q.pop_back();
         
         for (unsigned c = 0; c < AB_SIZE; ++c) {
-            auto next = next_col(pat, cur_col, c);
+            auto next = next_col(cur_col, pat, c);
 
             if (allStates.find(next) != allStates.end())
                 next_index = allStates[next];
@@ -51,7 +51,7 @@ void buildUkkonen(const string& pat, const unsigned r) {
     }
 }
 
-unsigned Ukkonen(const string &txt, const string &pat) {
+unsigned Ukkonen(const string &txt) {
 
     unsigned occ = 0;
     unsigned curState = 0;

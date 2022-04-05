@@ -26,7 +26,7 @@ extern void buildWuManber(const string& pat);
 extern void buildUkkonen(const string& pat, const unsigned r);
 
 extern unsigned Sellers(const string &txt, const string &pat, const unsigned r);
-extern unsigned Ukkonen(const string &txt, const string &pat);
+extern unsigned Ukkonen(const string &txt);
 extern unsigned WuManber(const string &txt, const string &pat, const unsigned r);
 
 #endif

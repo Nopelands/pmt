@@ -125,7 +125,7 @@ int main(const int argc, const char *argv[]) {
                     else if (funct == "shift-or" || funct == "so")
                         occ = ShiftOr(s, pat);
                     else if (funct == "ukkonen" || funct == "uk")
-                        occ = Ukkonen(s, pat);
+                        occ = Ukkonen(s);
                     else if (funct == "wu-manber" || funct == "wm")
                         occ = WuManber(s, pat, edit);
                     else {
