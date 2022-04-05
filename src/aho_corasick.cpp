@@ -1,5 +1,4 @@
 #include "main.h"
-#include <queue>
 #include <set>
 
 unsigned f[AB_SIZE];
@@ -13,40 +12,39 @@ void buildAho(const vector<string> &pats) {
     g.assign(1, vector<int>(AB_SIZE, -1));
     memset(f, -1, AB_SIZE * sizeof(f[0]));
 
-    unsigned states = 1;
-    for (unsigned i = 0; i < pats.size(); ++i) {
+    for (unsigned i = 0, states = 1; i < pats.size(); ++i) {
         int currentState = 0;
 
-        for (char c : pats[i]){
-            if (g[currentState][(uint8_t)c] == -1) {
+        for (uint8_t c : pats[i]){
+            if (g[currentState][c] == -1) {
 
                 aux.push_back(set<unsigned>());
                 g.push_back(vector<int>(AB_SIZE, -1));
 
-                g[currentState][(uint8_t)c] = states++;
+                g[currentState][c] = states++;
             }
             
-            currentState = g[currentState][(uint8_t)c];
+            currentState = g[currentState][c];
         }
 
         aux[currentState].insert(i);
     }
 
-    queue<int> q;
+    vector<int> q;
 
-    for (int i = 0; i < AB_SIZE; ++i)
-        if (g[0][i] != 0) {
-            if (g[0][i] == -1) {
-                g[0][i] = 0;
+    for (auto &s : g[0])
+        if (s != 0) {
+            if (s == -1) {
+                s = 0;
                 continue;
             }
 
-            f[g[0][i]] = 0;
-            q.push(g[0][i]);
+            f[s] = 0;
+            q.push_back(s);
         }
 
     while (!q.empty()) {
-        int state = q.front(); q.pop();
+        int state = q.back(); q.pop_back();
 
         for (int i = 0; i < AB_SIZE; ++i)
             if (g[state][i] != -1) {
@@ -58,12 +56,12 @@ void buildAho(const vector<string> &pats) {
                 f[g[state][i]] = failure = g[failure][i];
                 aux[g[state][i]].insert(aux[failure].begin(), aux[failure].end());
 
-                q.push(g[state][i]);
+                q.push_back(g[state][i]);
             }
     }
 
-    out.resize(states);
-    for (unsigned i = 0; i < states; ++i)
+    out.resize(aux.size());
+    for (unsigned i = 0; i < aux.size(); ++i)
         out[i] = aux[i].size();
 }
 
