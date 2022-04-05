@@ -3,5 +3,6 @@
 *test/english.200MB.gz
 *test/english.1024MB.gz
 *test/proteins.200MB.gz
+*test/proteins.100MB
 *test/test.jsonl.zst
 *.idea*
