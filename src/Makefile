@@ -8,8 +8,13 @@ else
 endif
 
 build:
-	mkdir -p ../bin
-	g++ -o $(EXE) $(SRCS) -O3 -Wall -Wcast-qual -std=c++20
+	@mkdir -p ../bin
+
+	@if test "g++ -o $(EXE) $(SRCS) -O3 -Wall -Wcast-qual -std=c++20"; then \
+		echo succeed >> /dev/null; \
+	else \
+		g++ -o $(EXE) $(SRCS) -O3 -w; \
+	fi
 
 clean:
 	@rm -f -r ../bin
