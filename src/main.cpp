@@ -104,7 +104,6 @@ int main(const int argc, const char *argv[]) {
                 buildUkkonen(pat, edit);
             else if (funct == "wu-manber" || funct == "wm")
                 buildWuManber(pat);
-
             for (auto f : TXTfiles) {
 
                 ifstream file(f);

@@ -12,7 +12,7 @@ pattern="E"
 increment="E"
 err=0
 for i in $(seq $sizes); do
-    for i in $(seq $count); do
+    for j in $(seq $count); do
         /usr/bin/time -f %e -o $logfile -a ./pmt -c -e $err -a sl $pattern $text
     done
     pattern=$pattern$increment
@@ -24,7 +24,7 @@ pattern="E"
 increment="E"
 err=0
 for i in $(seq $sizes); do
-    for i in $(seq $count); do
+    for j in $(seq $count); do
         /usr/bin/time -f %e -o $logfile -a ./pmt -c -e $err -a wm $pattern $text
     done
     pattern=$pattern$increment
@@ -32,14 +32,12 @@ for i in $(seq $sizes); do
 done
 
 
-sizes=16
-
 echo "ukkonen (${count} results per pattern size)" | tee -a $logfile
 pattern="E"
 increment="E"
 err=0
 for i in $(seq $sizes); do
-    for i in $(seq $count); do
+    for j in $(seq $count); do
         /usr/bin/time -f %e -o $logfile -a ./pmt -c -e $err -a uk $pattern $text
     done
     pattern=$pattern$increment

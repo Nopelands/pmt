@@ -11,7 +11,7 @@ echo "sellers (${count} results per pattern size)" | tee -a $logfile
 pattern="EEEEEE"
 increment="E"
 for i in $(seq $sizes); do
-    for i in $(seq $count); do
+    for j in $(seq $count); do
         /usr/bin/time -f %e -o $logfile -a ./pmt -c -e 5 -a sl $pattern $text
     done
     pattern=$pattern$increment
@@ -21,8 +21,18 @@ echo "wu-manber (${count} results per pattern size)" | tee -a $logfile
 pattern="EEEEEE"
 increment="E"
 for i in $(seq $sizes); do
-    for i in $(seq $count); do
+    for j in $(seq $count); do
         /usr/bin/time -f %e -o $logfile -a ./pmt -c -e 5 -a wm $pattern $text
+    done
+    pattern=$pattern$increment
+done
+
+echo "ukkonen (${count} results per pattern size)" | tee -a #$logfile
+pattern="EEEEEE"
+increment="E"
+for i in $(seq $sizes); do
+    for j in $(seq $count); do
+        /usr/bin/time -f %e -o $logfile -a ./pmt -c -e 5 -a uk $pattern $text
     done
     pattern=$pattern$increment
 done
@@ -33,20 +43,9 @@ echo "agrep (${count} results per pattern size)" | tee -a $logfile
 pattern="EEEEEE"
 increment="E"
 for i in $(seq $sizes); do
-    for i in $(seq $count); do
+    for j in $(seq $count); do
         /usr/bin/time -f %e -o $logfile -a --quiet agrep -c -5 $pattern $text
     done
     pattern=$pattern$increment
 done
 
-sizes=16
-
-echo "ukkonen (${count} results per pattern size)" | tee -a #$logfile
-pattern="EEEEEE"
-increment="E"
-for i in $(seq $sizes); do
-    for i in $(seq $count); do
-        /usr/bin/time -f %e -o $logfile -a ./pmt -c -e 5 -a uk $pattern $text
-    done
-    pattern=$pattern$increment
-done
