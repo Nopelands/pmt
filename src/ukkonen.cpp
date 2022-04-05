@@ -56,10 +56,9 @@ unsigned Ukkonen(const string &txt) {
 
     unsigned occ = 0;
     unsigned curState = 0;
-    const unsigned txtSize = txt.size();
 
-    for (unsigned i = 0; i < txtSize; ++i) {
-        curState = delta[curState][txt[i]];
+    for (uint8_t c : txt) {
+        curState = delta[curState][c];
 
         if (finalState[curState]) [[unlikely]] {
             if constexpr (!count)
