@@ -2,8 +2,7 @@
 #include <set>
 #include <queue>
 
-unsigned f[AB_SIZE];
-vector<unsigned> out;
+vector<unsigned> out, f;
 vector<vector<int>> g;
 
 void buildAho(const vector<string> &pats) {
@@ -11,7 +10,6 @@ void buildAho(const vector<string> &pats) {
     out.assign(1, 0);
     vector<set<unsigned>> aux(1);
     g.assign(1, vector<int>(AB_SIZE, -1));
-    memset(f, -1, AB_SIZE * sizeof(f[0]));
 
     for (unsigned i = 0, states = 1; i < pats.size(); ++i) {
         int currentState = 0;
@@ -31,6 +29,7 @@ void buildAho(const vector<string> &pats) {
         aux[currentState].insert(i);
     }
 
+    f.assign(aux.size(), -1);
     queue<int> q;
 
     for (auto &s : g[0])
