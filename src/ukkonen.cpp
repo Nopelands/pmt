@@ -1,9 +1,21 @@
 #include "main.h"
-#include <map>
 #include <queue>
+#include <unordered_map>
 
 vector<bool> finalState;
+vector<unsigned> seeds;
 vector<vector<unsigned>> delta;
+
+struct myHash {
+    size_t operator()(const vector<unsigned> &v) const {
+        size_t ans = 0;
+
+        for (unsigned i = 0; i < v.size(); ++i)
+            ans ^= v[i] * seeds[i];
+
+        return ans;
+    }
+};
 
 vector<unsigned> next_col(const vector<unsigned> &col, const string& pat, char c) {
     const unsigned patSize = pat.size();
@@ -18,12 +30,18 @@ vector<unsigned> next_col(const vector<unsigned> &col, const string& pat, char c
 void buildUkkonen(const string& pat, const unsigned r) {
     const unsigned patSize = pat.size();
 
+    seeds.assign(patSize + 1, 0);
     delta.assign(1, vector<unsigned>(AB_SIZE));
     finalState.assign(1, patSize <= r);
 
     unsigned total_states = 1, next_index;
-    map<vector<unsigned>, unsigned> allStates;
+    unordered_map<vector<unsigned>, unsigned, myHash> allStates;
     vector<vector<unsigned>> States(1, vector<unsigned>(patSize + 1));
+
+    for (unsigned i = 0, seed = 128486587ULL; i <= patSize; ++i) {
+        seeds[i] = seed;
+        seed ^= seed >> 6, seed ^= seed << 12, seed ^= seed >> 13;
+    }
 
     for (unsigned i = 0; i <= patSize; ++i)
         States[0][i] = i;
