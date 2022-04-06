@@ -1,6 +1,6 @@
 #include "main.h"
-#include <set>
 #include <queue>
+#include <unordered_set>
 
 vector<unsigned> out, f;
 vector<vector<int>> g;
@@ -8,7 +8,7 @@ vector<vector<int>> g;
 void buildAho(const vector<string> &pats) {
 
     out.assign(1, 0);
-    vector<set<unsigned>> aux(1);
+    vector<unordered_set<unsigned>> aux(1);
     g.assign(1, vector<int>(AB_SIZE, -1));
 
     for (unsigned i = 0, states = 1; i < pats.size(); ++i) {
@@ -17,7 +17,7 @@ void buildAho(const vector<string> &pats) {
         for (uint8_t c : pats[i]){
             if (g[currentState][c] == -1) {
 
-                aux.push_back(set<unsigned>());
+                aux.push_back(unordered_set<unsigned>());
                 g.push_back(vector<int>(AB_SIZE, -1));
 
                 g[currentState][c] = states++;
