@@ -30,6 +30,9 @@ extern unsigned WuManber(bool count, const string &txt, const string &pat, const
 
 #if defined(__GNUC__)
 __extension__ typedef __int128_t int128_t;
+constexpr int maxBinarySize = 128;
+#else
+constexpr int maxBinarySize = 64;
 #endif
 
 #endif

@@ -2,14 +2,50 @@
 #include <fstream>
 
 void help() {
-    ifstream file("../doc/help.txt");
-    for (string s; getline(file, s);)
-        printf("%s\n", s.c_str());
-    file.close();
+
+printf("\
+Usage: pmt [options] pattern textfile [textfile...]\n\
+Search for pattern in each textfile.\n\
+Example: pmt 'test' text.txt\n\
+\n\
+Pattern selection and interpretation:\n\
+  -a, --algorithm       force usage of selected algorithm. Option:\n\
+                            auto (it chooses the best fit algorithm to seach)\n\
+                            ac,  aho-corasick\n\
+                            bm,  boyer-moore\n\
+                            kmp, knuth-morris-pratt\n\
+                            sl,  sellers\n\
+                            so,  shift-or  (limited the size of pattern up to %d char)\n\
+                            uk,  ukkonen\n\
+                            wm,  wu-manber (limited the size of pattern up to %d char)\n\
+  -e, --edit            set maximum error for approximated search (must be used with sl, uk and wm)\n\
+  -p, --pattern         use pattern file instead of pattern string\n\
+\n\
+Miscellaneous:\n\
+  -h, --help            display this help text and exit\n\
+\n\
+Output control:\n\
+  -c, --count           print only a count of pattern occurrences\n\
+\n\
+Report bugs to: /dev/null\n\
+pmt home page: https://github.com/Nopelands/pmt\n", maxBinarySize, maxBinarySize);
+
 }
 
 void usage() {
     printf("Usage: pmt [options] pattern textfile [textfile...]\nTry 'pmt --help' for more information.\n");
+}
+
+void alg_warning() {
+    printf("Unknown algorithm\nTry 'pmt --help' for more information.\n");
+}
+
+void edit_warning() {
+    printf("Missing --edit flag or its value is negative\nTry 'pmt --help' for more information.\n");
+}
+
+void size_warning() {
+    printf("Pattern %s is ignored due to its size.\nPlease, keep pattern size less than %d characters.\n", maxBinarySize + 1);
 }
 
 string select_alg(const string &pat, int edit) {
@@ -55,10 +91,14 @@ int main(const int argc, const char *argv[]) {
     string funct = algorithm;
     string alg = funct;
 
-    if (TXTfiles.size() <= 0 + !patFile
-    ||  (edit <= 0 && (funct == "uk" || funct == "ukkonen" || funct == "wm" || funct == "wu-manber"
-    || funct == "sellers" || funct == "sl"))) {
+    if (TXTfiles.size() <= 0 + !patFile) {
         usage();
+        return 1;
+    }
+
+    if (edit < 0 && (    funct == "uk"     || funct == "sl"      || funct == "wm"
+                      || funct == "ukkonen"|| funct == "sellers" || funct == "wu-manber")) {
+        edit_warning();
         return 1;
     }
 
@@ -75,7 +115,7 @@ int main(const int argc, const char *argv[]) {
         TXTfiles.assign(TXTfiles.begin() + 1, TXTfiles.end());
     }
 
-    if (funct == "aho-corasick" || funct == "ac"
+    if ( funct == "aho-corasick" || funct == "ac"
     ||  (funct == "auto" && edit <= 0 && patText.size() > 1)) {
         buildAho(patText);
 
@@ -105,12 +145,24 @@ int main(const int argc, const char *argv[]) {
                 buildBoyer(pat);
             else if (funct == "knuth-morris-pratt" || funct == "kmp")
                 buildKMP(pat);
-            else if (funct == "shift-or" || funct == "so")
+            else if (funct == "shift-or" || funct == "so") {
+                if (pat.size() > maxBinarySize) {
+                    size_warning();
+                    continue;
+                }
+
                 buildShiftOr(pat);
+            }
             else if (funct == "ukkonen" || funct == "uk")
                 buildUkkonen(pat, edit);
-            else if (funct == "wu-manber" || funct == "wm")
+            else if (funct == "wu-manber" || funct == "wm") {
+                if (pat.size() > maxBinarySize) {
+                    size_warning();
+                    continue;
+                }
+
                 buildWuManber(pat);
+            }
 
             for (auto f : TXTfiles) {
 
@@ -131,7 +183,7 @@ int main(const int argc, const char *argv[]) {
                     else if (funct == "wu-manber" || funct == "wm")
                         occ = WuManber(count, s, pat, edit);
                     else {
-                        usage();
+                        alg_warning();
                         return 1;
                     }
 

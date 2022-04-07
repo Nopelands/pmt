@@ -3,15 +3,23 @@ Search for pattern in each textfile.
 Example: pmt 'test' text.txt
 
 Pattern selection and interpretation:
-  -a, --algorithm           force usage of selected algorithm (ac, bm, kmp, sl, so, uk, wm)
-  -e, --edit                set maximum error for approximate search
-  -p, --pattern             use pattern file instead of pattern string
+  -a, --algorithm       force usage of selected algorithm. Option:
+                            auto (it chooses the best fit algorithm to seach)
+                            ac,  aho-corasick
+                            bm,  boyer-moore
+                            kmp, knuth-morris-pratt
+                            sl,  sellers
+                            so,  shift-or  (limited the size of pattern up to 64 or 128 characters depending on compile support)
+                            uk,  ukkonen
+                            wm,  wu-manber (limited the size of pattern up to 64 or 128 characters depending on compile support)
+  -e, --edit            set maximum error for approximated search (must be used with sl, uk and wm)
+  -p, --pattern         use pattern file instead of pattern string
 
 Miscellaneous:
-      --help                display this help text and exit
+  -h, --help            display this help text and exit
 
 Output control:
-  -c, --count               print only a count of pattern occurrences
+  -c, --count           print only a count of pattern occurrences
 
 Report bugs to: /dev/null
-pmt home page: https://github.com/Nopelands/pmt
+pmt home page: https://github.com/Nopelands/pmt\n
