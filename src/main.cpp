@@ -12,19 +12,24 @@ void usage() {
     printf("Usage: pmt [options] pattern textfile [textfile...]\nTry 'pmt --help' for more information.\n");
 }
 
-string select_alg(const vector <string> &patVector) {
-    if (patVector.size() > 1)
-        return "ac";
-    else if (patVector[0].size() <= 8)
-        return "so";
-    else
-        return "bm";
+string select_alg(const string &pat, int edit) {
+    if (edit > 0) {
+        if (pat.size() > 12)
+            return "wm";
+        else
+            return "uk";
+    } else {
+        if (pat.size() > 6)
+            return "bm";
+        else
+            return "so";
+    }
 }
 
 int main(const int argc, const char *argv[]) {
 
     bool count = false;
-    int edit = 0, counter = 0;
+    int edit = -1, counter = 0;
     vector<const char*> TXTfiles;
     const char *patFile = NULL, *algorithm = "auto";
     vector<string> patText;
@@ -47,8 +52,12 @@ int main(const int argc, const char *argv[]) {
         else
             TXTfiles.push_back(argv[i]);
     }
+    string funct = algorithm;
+    string alg = funct;
 
-    if (TXTfiles.size() <= 0 + !patFile) {
+    if (TXTfiles.size() <= 0 + !patFile
+    ||  (edit <= 0 && (funct == "uk" || funct == "ukkonen" || funct == "wm" || funct == "wu-manber"
+    || funct == "sellers" || funct == "sl"))) {
         usage();
         return 1;
     }
@@ -66,13 +75,8 @@ int main(const int argc, const char *argv[]) {
         TXTfiles.assign(TXTfiles.begin() + 1, TXTfiles.end());
     }
 
-
-    string funct = algorithm;
-
-    if (funct == "auto")
-        funct = select_alg(patText);
-
-    if (funct == "aho-corasick" || funct == "ac") {
+    if (funct == "aho-corasick" || funct == "ac"
+    ||  (funct == "auto" && edit <= 0 && patText.size() > 1)) {
         buildAho(patText);
 
         for (auto f : TXTfiles) {
@@ -93,6 +97,9 @@ int main(const int argc, const char *argv[]) {
     }
     else
         for (string pat : patText) {
+
+            if (alg == "auto")
+                funct = select_alg(pat, edit);
 
             if (funct == "boyer-moore" || funct == "bm")
                 buildBoyer(pat);
