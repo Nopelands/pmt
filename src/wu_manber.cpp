@@ -5,8 +5,6 @@ int64_t WM64[AB_SIZE];
 #if defined(__GNUC__)
 int128_t WM128[AB_SIZE];
 vector<int128_t> WMv[AB_SIZE];
-#else
-vector<int64_t> WMv[AB_SIZE];
 #endif
 
 
@@ -50,51 +48,6 @@ unsigned WuManber(const string& txt, const string& pat, const unsigned r, intTyp
     return occ;
 }
 
-void buildWuManberV(const string& pat) {
-
-    const unsigned vecSize = ((pat.size() - 1) / sizeInt) + 1;
-
-    for (unsigned i = 0; i < AB_SIZE; ++i)
-        WMv[i].assign(vecSize, -1);
-
-    vector<bigInt> j(vecSize, 0);
-    j.back() = 1;
-
-    for (uint8_t c : pat)
-        WMv[c] &= ~j, j <<= 1;
-}
-
-template<bool count>
-unsigned WuManberV(const string& txt, const string& pat, const unsigned r) {
-
-    const unsigned vecSize = ((pat.size() - 1) / sizeInt) + 1;
-    const bigInt lim = bigInt(1) << ((pat.size() - 1) % sizeInt);
-
-    unsigned occ = 0;
-    vector<vector<bigInt>> s(r + 1);
-    s[0].assign(vecSize, -1);
-
-    for (unsigned i = 1; i <= r; ++i)
-        s[i] = s[i - 1] << 1;
-
-    for (uint8_t c : txt) {
-        vector<bigInt> temp, previous = s[0];
-        s[0] = (previous << 1) | WMv[c];
-
-        for (unsigned j = 1; j <= r; ++j, previous = temp)
-            s[j] = previous & (previous << 1) & (s[j - 1] << 1) & (((temp = s[j]) << 1) | WMv[c]);
-
-        if (!(s[r] & lim)) [[unlikely]] {
-            if constexpr (!count)
-                return 1;
-
-            occ++;
-        }
-    }
-
-    return occ;
-}
-
 void buildWuManber(const string& pat) {
     if (pat.size() < 64)
         return buildWuManber<int64_t>(pat, WM64);
@@ -118,6 +71,5 @@ unsigned WuManber(bool count, const string& txt, const string& pat, const unsign
 #endif
 
     else
-        return count ? WuManberV< true>(txt, pat, r)
-                     : WuManberV<false>(txt, pat, r);
+        return 0;
 }
