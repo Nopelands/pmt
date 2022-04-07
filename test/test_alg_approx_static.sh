@@ -27,7 +27,7 @@ for i in $(seq $sizes); do
     pattern=$pattern$increment
 done
 
-echo "ukkonen (${count} results per pattern size)" | tee -a #$logfile
+echo "ukkonen (${count} results per pattern size)" | tee -a $logfile
 pattern="EEEEEE"
 increment="E"
 for i in $(seq $sizes); do
