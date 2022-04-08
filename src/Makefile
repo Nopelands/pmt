@@ -11,5 +11,9 @@ build:
 	@mkdir -p ../bin
 	g++ -o $(EXE) $(SRCS) -O3 -Wall -Wcast-qual -std=c++20
 
+build-old:
+	@mkdir -p ../bin
+	g++ -o $(EXE) $(SRCS) -O3 -w
+
 clean:
 	@rm -f -r ../bin
