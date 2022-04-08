@@ -44,8 +44,8 @@ void edit_warning() {
     printf("Missing --edit flag or its value is negative\nTry 'pmt --help' for more information.\n");
 }
 
-void size_warning() {
-    printf("Pattern %s is ignored due to its size.\nPlease, keep pattern size less than %d characters.\n", maxBinarySize + 1);
+void size_warning(const string &pat) {
+    printf("Pattern %s is ignored due to its size.\nPlease, keep pattern size less than %d characters.\n", pat.c_str(), maxBinarySize + 1);
 }
 
 string select_alg(const string &pat, int edit) {
@@ -147,7 +147,7 @@ int main(const int argc, const char *argv[]) {
                 buildKMP(pat);
             else if (funct == "shift-or" || funct == "so") {
                 if (pat.size() > maxBinarySize) {
-                    size_warning();
+                    size_warning(pat);
                     continue;
                 }
 
@@ -157,7 +157,7 @@ int main(const int argc, const char *argv[]) {
                 buildUkkonen(pat, edit);
             else if (funct == "wu-manber" || funct == "wm") {
                 if (pat.size() > maxBinarySize) {
-                    size_warning();
+                    size_warning(pat);
                     continue;
                 }
 
