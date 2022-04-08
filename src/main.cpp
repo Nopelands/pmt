@@ -50,7 +50,9 @@ void size_warning(const string &pat) {
 
 string select_alg(const string &pat, int edit) {
     if (edit > 0) {
-        if (pat.size() > 12)
+        if (pat.size() > 128)
+            return "sl";
+        else if (pat.size() > 12)
             return "wm";
         else
             return "uk";
